@@ -1,0 +1,1 @@
+alert("mainjs소스입니다.")
