@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>JS Bin</title>
-  <link rel="stylesheet" href="./main.css">
-  <script src="./main.js"></script>
+  <style>
+   body > div {
+      color: green;
+      font-size: 30px;
+      border: 2px solid slategray;
+      padding: 30px;
+    }
+  </style>
+  <link rel="stylesheet"  href="css_basic.css">
 </head>
 <body>
+  
   <div>
-    <h1>반갑습니다</h1>
-    여기 여러분들이 좋아하는 과일이 있어요.
+    <span>my text is upper!</span>
+
     <ul>
-      <li><a href="http://www.apple.com">사과</a></li>
-      <li>사과</li>
-      <li>메론</li>
-      <li>귤</li>
+      <li>
+        <span>my text is dummy</span>
+        <div>
+          <p>           
+            Styles applied from the top are reflected in the bottom.
+            This eliminates the need to assign the same color and font size to each element nested in multiple steps.
+            However, when all CSS properties have this feature, there are some problems.
+            For example, if the width attribute is inherited, the child elements can have width values ​​of all the same size.
+          </p>
+        </div>
+      </li>
     </ul>
   </div>
 </body>
