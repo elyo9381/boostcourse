@@ -2,24 +2,45 @@
 <html>
 <head>
   <style>
-   body > div {
+   /* body > div {
       color: green;
       font-size: 30px;
       border: 2px solid slategray;
       padding: 30px;
+    } */
+    #myspan {
+      color: #ff0000;
+      font-size: 1em;
     }
+
+    #jisu > p:nth-child() { color : blue}
+
+    #jisu > p:nth-of-type() {color:  red;}
+
+
   </style>
   <link rel="stylesheet"  href="css_basic.css">
 </head>
 <body>
-  
+
   <div>
-    <span>my text is upper!</span>
+    <span id="myspan">my text is upper!</span>
 
     <ul>
       <li>
-        <span>my text is dummy</span>
-        <div>
+        <span id="myspan">my text is dummy</span>
+
+
+        <div id="jisu">
+          <h2>단락 선택</h2>          
+          <p>첫번째 단락입니다</p>
+          <p>두번째 단락입니다</p>
+          <p>세번째 단락입니다</p>
+          <p>네번째 단락입니다</p>          
+        </div>
+
+
+        <div> 
           <p>           
             Styles applied from the top are reflected in the bottom.
             This eliminates the need to assign the same color and font size to each element nested in multiple steps.

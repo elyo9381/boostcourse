@@ -45,3 +45,32 @@
 
 - id값에는 더 높은 점수를 준다. class보다 
 - id > class > element 순으로 우선순위가 적용된다. 같은 div태그라고 가정했을때
+
+
+** css selector
+- span 태그
+
+
+
+
+
+* element
+
+- display(block, inline, inline-block)
+- position(static, absolution,relative, fixed)
+- float(left,right)
+기본적으로 쌓이는 순서를 벗어나 둥떠있는 느낌으로 배치가 되는 특성
+
+
+- block 위에서 아래로 쌓는 블럭(대두분이 디스플레이 블럭이다. )
+- inline 오른쪽으로 흐르게 할수있는것
+
+-position(좀 다르게 배치시키기)
+- static(순서대로 배치)
+- absolute(기준점에 따라 특별한 위치에 위치)
+
+- relative(원래 자신이 위치해야 할 곳을 기준으로 이동합니다. )
+
+
+* margin 
+ - 엘리멘트와 본인간의 간격이다. 
