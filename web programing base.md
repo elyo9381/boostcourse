@@ -74,3 +74,175 @@
 
 * margin 
  - 엘리멘트와 본인간의 간격이다. 
+
+
+## js
+
+
+* 함수
+```
+function printName(firstname)
+{
+	return "name is " + firstname;
+}
+
+// 표현식 에러  -- undefined 반환한다. 
+function printName(firstname){
+	conlose.log("name is " + result);
+
+	var result = inner();
+	// 이너는 함수로 인식이 되고있지 않다.
+	var inner = function()
+	{
+		return "inner value";
+	}
+}
+
+// 정상 작동
+function printName(firstname){
+	conlose.log("name is " + result);
+
+	var result = inner();
+	// 이너의 함수인식
+	function inner()
+	{
+		return "inner value";
+	}
+}
+```
+
+자바스크립트에선 파서가 쭉 한번 훝고 기억을 한다. 그래서 이너정보는 함수정보를 기억해서 
+실행을 시킨것이다
+이것을 표현식과 호이스팅이라고 한다. (호이스팅은 함수의 선언식과 표현식에서 다르게 작용한다.)
+
+자바스크립트는 undefined를 반환한다. 아무것도 타입이 지정되지 않았다면
+
+
+aruments 는 함수가 실행되면 지역변수가 자동생성된다. 
+arguments의 타입은 객체타입이다.
+배열의 형태로 하나씩 접근할수있지만 배열의 메서드는 사용할수없다.
+```
+function a(){
+	console.log(arguments);
+	for(var i = 0; i<argumets.length; i++)
+		console.log(arguments[i]);
+}
+```
+
+arrow function
+	함수의 일반적인 선언과 표현식 {}를 사용한 방법을 
+	arrow function 으로 대신할수있다.
+```
+function getName(name) {
+   return "Kim " + name ;
+}
+
+//위 함수는 아래 arrow함수와 같다.
+var getName = (name) => "Kim " + name;
+```
+
+
+* 함수의 호출 - call stack 
+
+```
+function printname(firstname)
+{
+	var myname = " jisu";
+	return myname=","= firstname;
+}
+
+function run(firstname)
+{
+	var firstname = firtstname || "yoon";
+	var result = printname(firstname);
+	debbugger;
+	console.log(result);
+}
+
+run("kim");
+```
+
+
+
+* window 객체
+
+	- window.setTimeout()
+	윈도우는 객체이고 메소드를 호출가능하다. window는 전영객체라서 생략가능하다.
+
+	- setTimeout 활용
+		인자로 함수를 받고 있으며, 보통 나중에 실행되는 함수를 콜백함수라고도 합니다.
+
+	```
+	function run() {
+    setTimeout(function(){ 
+        var msg = "hello codesquad";
+        console.log(msg);
+    }, 2000); // 2000 == 2초
+    console.log("run function end");
+	}
+
+	console.log("start");
+	run()
+	console.log("end");
+	```
+
+	비동기 콜백이다. 이것은 call stack 에 쌓여있는 순서대로 실행된다 
+	위의예제에서는 
+	start
+	runfuction end
+	end
+	다음에 setTimeout이 실행되어서 
+	hello codesquad 라는 코드가 실행되는것이다. 
+
+
+	- setInterval : 일정한 시간간격으로 작업을 수행하기 위해서 사용합니다.(주기적인 명령어 실행)
+					clearInterval 함수를 사용하여 중지 할 수 있습니다.
+
+	setInterval은 일정한 시간간격으로 작업을 수행하기 위해서 사용된다. 반복수행.
+
+	setTimeout은 지정된 시간을 기다린 후 작업을 수행하고, 지정된 시간 사이에 작업시간이 추가된다. 1번수행
+
+
+* DOM
+	: 브라우저는  HTML코드를 DOM이라는 객체형태의 모델로 저장합니다.
+	DOM Tree 는 결국 HTML element Tree이다.
+
+	getElementById() : ID정보를 통해서 DOM객체의 아이디를 찾을수있다. 
+
+	querySelector 를 사용하여서 알수있다. 
+	css selector , html selector 등을 selector 문법 #, . , > 등
+
+
+
+* Event
+
+	브라우저에는 많은 이벤트가 있다. 
+	브라우저가 변화할때마다 이벤트 정보를 알려준다. (클릭 , 스크롤, 키보드, 다양한 입력 정보등등)
+
+	- 이벤트 등록 
+	```
+	var el  = document.getElementById("outside");
+	el.addEventListener("click", function(){
+		// do something...
+	},  false);
+
+	var el = document.getElementById("outside");
+	el.addEventListener("click", function(evt){
+	console.log(evt.target);
+	console.log(evt.target.nodeName);
+	console.log(evt.className);
+	}, false);	
+	```
+	addEventListener함수의 두번째 인자는 함수다. 이 함수는 나중에 이벤트가 발생할때
+	실행되는 함수로 이벤트 핸들러 또른 이벤트 리스너라고 합니다. 
+
+
+* Ajax 
+	: 웹에 데이터를 갱신할때 브라우저 새로고침없이 서버로부터 데이터를 
+	  받는 것이 좋다는 생각에서 출발하였습니다.
+	  매번 새로운 사이트를 업데이트하여 클라이언트가 랜더링 하지만 화면 리프레쉬 없이 
+	  일부분만 갱신가능( 비동기적인 접근 )
+
+	  cors(corss-Origin Resource sharing) 
+	  	: 한 출저에서 실행중인 웹 애플리케이션이 다른 출처의 선택한 자원에 접근할수있는 권한을
+		  부여하도록 브라우저에 알려주는 체제이다. 
