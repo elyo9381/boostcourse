@@ -246,3 +246,168 @@ run("kim");
 	  cors(corss-Origin Resource sharing) 
 	  	: 한 출저에서 실행중인 웹 애플리케이션이 다른 출처의 선택한 자원에 접근할수있는 권한을
 		  부여하도록 브라우저에 알려주는 체제이다. 
+
+
+# JSP
+
+html이랑 비슷하게 생겼지만, jsp는 서블릿으로 바뀌어서 실행된다. 그래서 서블릿의 라이프사이클에서 동작한다. 
+
+<% %>에서 동적인 작업이 진행되고
+동적인 결과물을 반환 할때에는 <%= return > 으로 값을 페이지에다 반환할수있다. 
+
+
+sum10.jsp가 실행될때 
+.metadata 폴더에 sum10_jsp.java파일이 생성된다. 
+
+해당파일의 _jspService() 메소드안을 살펴보면 jsp파일의 내용이 변환되어 들어가 있는것을 확인했다.
+sum10.jsp는 서블릿 소스로 자동으로 컴파일되면서 실행되서 그결과가 브라우저에 보여진다.
+
+브라우저가 요청한 jsp가 최초로 요청했을경우만 변환한다. 
+1. jsp에 해당하는 서블릿 파일의 존재여부를 체크한다.
+2. 존재한다면 서블릿파일이 실행되고 컴파일 되고 
+3. 없다면 jsp엔진이 서블릿파일을 불러와서 컴파일하고 실행한다.
+
+
+* jsp 스크립트 요소의 이해 
+
+<%! %> 전역변수 선언 및 메소드 선언에 사용 
+	jsp페이지내에서 필요한 멤버변수나 메소드가 필요할 때 선언함 
+
+<% %> 프로그래밍 코드 기술에 사용
+	주로 프로그래밍의 로직을 기술할 때 사용.
+
+<%= 문장 %> 표현식
+	jsp페이지에서 웹 브라우저에 출력할 부분을 표현 (즉 화면에 출력하기 위한것.)
+
+
+jsp 파일에서 html , java 주석은 jsp에 사용하여 서블릿에 사용이 되지만 
+jsp 주석은 서블릿으로 변환이 되지 않는다. 
+
+
+* jsp 내장 객체
+
+jsp의 대부분의 파일은 jspService 메소드안에 작성되어 서블릿이된다. 
+request, response 등의 내장객체는 그냥 가져다가 사용하면 된다. 서블릿으로 변환될때 내장객체선언이 되어있기 때문이다. 
+
+* redirect
+
+	클라이언트에서 redirect01.jsp를 요청했고 
+	서버에서는 redirect01.jsp를 응답했고 여기에 (응답코드:302, Location헤더값: redirect02.jsp) 추가해서 답을 넣은것이다. 
+
+	클라이언트는 서버(was)의 리다이렉트요청을 받고 redirect02.jsp를 요청한다.
+	서버는 redirect02.jsp 를 출력하고 
+
+	url은 redirect02.jsp의 url을 출력하게 된다. 
+
+	장점 : 클라이언트가 의도치 않은 url에 접속했을 때 우회할수있도록 도와줄수 있다.
+		  서버의 의도에 맞게 클라이언트에게 편의를 제공할 수 있다. 
+	단점 : get방식으로 데이터를 주고 받아서 보안에 취약하다.
+
+
+* forward
+
+	서버가 클라이언트에게 받은 요청을 servlet 1으로 받고 일정부분 요청받은 코드를 수행하고 결과를 request 객체에 저장한다. 그리고 일부를 servlet2에 넘겨주어 남은 코드를 수행한다. 그리고 응답은 servlet2가 준다.
+	forward 할때 인자값으로 request,response를 인자값으로 넘겨준다. 
+
+	request, response는 한번만 이루어진다. why 요청이 한번만 이루어지니깐
+	
+~~~
+
+forward 는 다른 파일에서 다른 파일로 값넘겨주는 개념이다. request, response를 통해서 
+
+//클라이언트에게 받은 요청을 Servlet1이 랜덤수 6개를 만들고
+frontServlet.java
+
+protected void serviec(HttpservletRequest request, HttpServletResponse response) throws ServletExcetion, IOExeption{
+
+	int diceValue = (int)(Math.random() * 6) + 1;
+	request.setAttribute("dice", diceValue);
+
+	RequestDispatcher requestDispatcher = request.getRequestDispatcher("/next");
+	requestDispatcher.forward(request,response);
+
+}
+
+서버의 nextServlet.java 에서 출력을 담당한다. 
+
+
+protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException){
+	response.setContentType("Text/html");
+	PrintWriter out = response.getWriter();
+		out.println("<html>");
+		out.println("<head><title>form</title></head>");
+		out.println("<body>");
+
+			int dice = (Integer)request.getAttribute("dice");
+			ou.println("dice : " + dice);
+
+			for(int i = 0; i< dice; i++)
+			{
+				out.println("<br> hello");
+			}		
+
+		out.println("</body>");
+		out.println("</html>");
+}
+~~~
+RequestDispatcher 메소드를 통해서 값을 넘겨준다.
+
+request.setAttribute("dice", diceValue); 를 통해서 데이터를 전달해주고 
+request.getRequestDispatcher("/next");
+
+request.getAttribute("dice"); 를 통해서 값을 전달 받는다. 
+
+* Servlet과 jsp 연동
+
+	jsp는 결과를 출력하기에 Servlet보다 유리하다. 
+	Servlet은 프로그램 로직을 수행되기에 유리하다.
+
+	forward를 통해서 논리는 Servlet으로 작성하고 jsp를 통해서 결과를 출력한다. 
+
+	~~~
+	//LogicServlet.java
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		int v1 = (int)(Math.random() *100) +1;
+		int v2 = (int)(Math.random() *100) +1;
+		
+		int ret = v1 + v2;
+		
+		request.setAttribute("ret", ret);
+		request.setAttribute("v1", v1);
+		request.setAttribute("v2", v2);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("/result.jsp");
+		rd.forward(request, response);
+		
+	}
+
+	//result.jsp
+
+	<%
+	int v1 = (int)request.getAttribute("v1");
+	int v2 = (int)request.getAttribute("v2");
+	int ret = (int)request.getAttribute("ret");
+		
+	%>
+
+	<%=v1 %> + <%=v2 %> = <%=ret %>
+
+	~~~
+
+	로직을 servlet으로 작성하고 jsp를 통해서 출력할때 forward를 통해서 작성한다. 
+	하지만 jsp에서 request.getAttribute("value")를 사용하면 매우 코드 및 가독성이 불편하다.
+	이렇기 때문에 el문법을 사용하여 간편하게 할수있고 
+	jsp는 간편하게 하는것이 짱이다.
+
+
+* scope : 객체들의 범위가 어디서 어떻게 되느냐
+
+- Page : servlet or jsp 내에서만 사용할수있는 범위
+  - pageContext라는 내장객체로 사용가능하다.
+  - forward가 될때 page scope에 지정된 변수는 사용할 수 없다.
+  - 
+- request : 하나의 요청이 들어와서 나갈때 까지( ex] servlet1,servlet2가 forward 하면서 request 계속 사용되는것 )
+- Session : 세션객체가 생성되서 소멸될때까지
+- application : 어플리케이션이 생성되어 소멸될때 까지
