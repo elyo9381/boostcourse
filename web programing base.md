@@ -407,7 +407,30 @@ request.getAttribute("dice"); 를 통해서 값을 전달 받는다.
 - Page : servlet or jsp 내에서만 사용할수있는 범위
   - pageContext라는 내장객체로 사용가능하다.
   - forward가 될때 page scope에 지정된 변수는 사용할 수 없다.
-  - 
+
 - request : 하나의 요청이 들어와서 나갈때 까지( ex] servlet1,servlet2가 forward 하면서 request 계속 사용되는것 )
+  - http요청을 WAS가 받아서 웹브라우저에게 응답할 때까지 변수값을 유지하고자 할경우 사용한다.
+  - httpServletRequest 객체를 사용한다.
+  - 저장할 때는 request.setAttribute() 를 사용한다. 
+  - 값을 읽어들일 때는 request.getAttribute() 를 사용한다. 
+  - RequestDispatcher 타입사용
+
 - Session : 세션객체가 생성되서 소멸될때까지
+  - 웹 브라우저 별로 변수를 관리하고자 할 경우 사용한다.
+  - 상태정보를 유지하기 위해서 사용한다.
+  - 클라이언트마다 각각 관리 해주는 객체이다.
+  - 웹 브라우저간의 탭간에는 세션정보가 공유되기 때문에,각가의 탭에서는 같은 세션정보를 사용할수 있다.
+  - HttpSession인터페이스를 구현한 객체를 사용한다. 
+  - 서블릿에서는 HttpServletRequest의 getSession() 메소드를 이용한다.
+  - 각 클리어언트마다 정보를 유지할 때 session정보를 유지해야한다.
+
 - application : 어플리케이션이 생성되어 소멸될때 까지
+  - 서버에는 웹 어플리케이션이 여러개 있을수있습니다. 웹어플리케이션은 뭘까요? ex)firstwep 같은것을 웹어플리케이션이라고 말할수있습니다. 
+  - 클라이언트가 공통으로 사용해야할 값들이 있을 때 사용한다. 
+  - SwrvletContext인터페이스를 구현한 객체를 사용한다. 
+  - 웹 어플리케이션 하나당 하나의 application객체가 사용된다.
+    - 어플리케이션 스코프에 list객체가 계속 저장되지만, 삭제는 되지 않을때 발생하는 문제는 메모리양이 많아져 속도가 느려지거나 멈출수도 있습니다.
+
+
+
+
