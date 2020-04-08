@@ -433,4 +433,264 @@ request.getAttribute("dice"); 를 통해서 값을 전달 받는다.
 
 
 
+* jsp 표현언어 : EL
 
+	표현언어는 값을 표현하는데 사용되는 스크립트 언어로서 jsp의 기본문법을 보완하는역할을 한다.
+	
+	표현 언어가 제공하는 기능
+	```
+	- jsp의 스코프에 맞는 속성 사용
+	- 집합 객체에 대한 접근 방법 제공
+	- 수치연산, 관계 연산, 논리 연산자 제공
+	- 자바 클래스 메소드 호출기능 제공
+	- 표현언어만의 기본 객체 제공
+	```
+
+	* 표현언어의 표현방법
+		${expr }
+
+	* 개체 접근 규칙
+		${<표현1>,<표현2>}	f
+		
+		표현 1이나 표현 2가 null 이면 null 을 반환한다.
+		표현1이 map일 경우 표현2를 key로한 값을 반환한다.
+		표현1이 lst나 배열이면 표현2가 정수일 경우 해당 정수번째 index에해당하는 값을 반환한다.
+		만약 전수가 아닐경우에는 오류가 발생한다.
+		표현1이 객체일 경우는 표현2에 해당하는 getter메소드에 해당하는 메소드들 호출한 결과를 반환한다. 
+
+
+	* 비교 연산자 
+		== , eq
+		!= , neq
+		문자열 비교 : ${str == '값'} str.compareTo("값") == 0 과 동일
+		일반적인 방법하고 같다 
+
+* JSTL : jsp 페이지에서 조건문 처리, 반복문 처리 등을 html tag 형태로 작성할 수 있게 도와줍니다.
+	유지보수를 유용하게 하기 위해서 
+
+	//예제 if or if/else 
+	~~~
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+	<%
+	request.setAttribute("n", 10);
+	%>
+
+	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Insert title here</title>
+	</head>
+	<body>
+	<c:if test="${n == 0}">
+	n은 과 0과 같습니다.
+	</c:if>
+
+	<c:if test="${n == 10}">
+	n은 과 10과 같습니다.
+	</c:if>
+	</body>
+	</html>
+	~~~
+
+	jstl에서 if문처럼 사용할수있는것 
+	when 이 if와 if else 같은 느낌이다. 
+	```
+	<c:choose>
+		<c:when test = "%{score >= 90}">
+			A학점입니다. 
+		</when>
+		<c:otherwise>
+		F학점입니다.
+		</otherwise>
+	</choose>
+	```
+
+	흐름제어 태그 forEach
+
+	<c:forEach var = "변수" items = "아이템" [begin = "시작번호"][end = "끝번호"]>
+	```
+	<% List<String> list = new ArrayList<>();
+		list.add("hello");
+		list.add("world");
+		list.add("!!!!");
+
+		request.setAttribute("list",list);
+	%>
+	....
+
+	<c:forEach item = "${list}" var = "item" [begin = "1"]></c:forEach>
+	```
+
+
+	흐름제어 태그 import : 특정한 url에 연결하여 결과를 지정한 변수에 저장한다.  
+	```
+	<c:import url = "" var = "urlvalue" scope = "request/>
+	...
+	<body>
+	${urlvalue };
+
+	```
+
+	흐름제어 태그 redirect : 지정한 페이지로 리다이렉트한다.
+
+	~~~
+	<c:redirect url = "http://local ~~~ .jsp"/>
+	~~~
+
+	흐름제어 태그 out : jspWriter에 데이터를 출력한다.
+	
+	<c:out value = "value" escapeXml="{true|false}" default = "defaultValue"/>
+
+	```
+	<c:set var = "t" value = " <script type = 'text/javascript'> alert(1); </script> "/>
+
+ 	<c:out value = " value" escapeXml = "true"/> //이렇게 하면 js실행이 아닌 text로 웹상에 표현된다.
+
+	```
+
+* mysql
+	mac 에서 mysql
+
+	실행
+	mysql.server start
+	종료
+	mysql.server stop
+
+	mac에서 mysql 데몬실행
+	brew services start mysql
+	데몬종료
+	brew services stop mysql
+
+
+	- SQL : Structured Query Language 
+		데이터를 보다 쉽게 검색하고 추가,삭제,수정같은 조작을 할수있는 컴퓨터 언어
+		관계형데이터베이스에서 데이터를 조작하고 쿼리하는 표준수단이다.
+
+		DML, DDL, DCL 으로 구성되어 있다.
+
+		DML : 데이터를 조작하기 위해 사용한다. 
+		DDL : 데이터베이스의 스키마를 정의 하거나 조작한다.
+		DCL : 데이터를 제어하는 언어이다. 
+
+	
+	데이터베이스 생성하기
+	create database connectdb;
+
+	db사용자 생성과 권한주기
+	grant all privileges on db이름.
+
+	// 8/0 이상부터 한번에 권한 부여가 안되니 생성 > 권한설정 해준다. 
+	// db이름 뒤의 * 는 모든 권한을 의미한다.
+	//@’%’는 어떤 클라이언트에서든 접근 가능하다는 의미이고, @’localhost’는 해당 컴퓨터에서만 접근 가능하다는 의미입니다.
+	//flush privileges는 DBMS에게 적용을 하라는 의미입니다.	
+
+	create user 'connectuser'@'%' indentified by 'connect123!@#';
+	GRANT ALL PRIVILEGES ON connectdb.* to 'connectuser'@'%';
+
+	// 로그인하는방법
+	mysql -h127.0.0.1 -uconnectuser -p connectdb;
+
+	// .sql 파일을 sql 시스템에 넣기 (import)
+	mysql -uconnectuser -p < examples.sql 
+
+	//	테이블 잘있나 확인하기 
+	show tables; 
+	desc bonus; << 명령어를 입력하게 되면 테이블의 타입 변수 상세내용을 알수잇음;
+
+	// select 구문의 기본 문형
+	select(distict) 칼럼명(aias)
+	from 테이블명
+	where  조건식
+	order by 칼럼혹은 표현식 (asc || desc);
+
+	```
+	select 검색하고자 하는 데이터를 나열한다.
+	distinct 중복행을 제거 
+	alias 나타날 컬럼에 대한 다른이름 부여
+	from 선택한 컬럼이 있는 데이블을 명시한다.
+
+
+	select empno, name, job from employee order by name desc;
+	select distinct deptno from employee;
+	SELECT concat( empno, '-', deptno) AS '사번-부서번호' FROM employee;
+	select empno as 사번, name as 이름, job as 직업 from employee;
+
+
+	select * from employee where deptno in (10,30);
+	select * from employee where deptno = 10 or 30;
+
+
+	// %는 0에서부터 여러개의 문자열을 나타냄
+	// _는 단 하나의 문자를 나타내는 와일드 카드 
+	select * from employee where name like '_A%';
+	select * from employee where name like 'A%';
+
+	// 함수 대문자(ucase, upper) 소문자(lower, ) substring('happ',3,2)
+	// LPAD, RPAD 공백에 문자를 채워줘요
+	// LTRIM,RTRIM,TRIM 공백 지워줘요 
+	// abs(), mod()
+	select LPAD(name,10,'+') from employee;
+
+	
+	// cast 형변환
+	// binary , char, date, datetime, signed, time, unsigned
+	CAST(expression AS type)
+	CONVERT(expression, type)
+
+	// 그룹함수 및 그룹바이 
+
+
+	//데이터 입력
+	insert into tablename(field, field2) value2(field1 value, field2 value);
+
+	//데이터 수정
+	// 조건식을 주지 않으면 전체 로우에 영향을 미치니 조심하자
+	update 테이블명 set field1 = field1의 value, ~~  where 조건식
+
+	// 데이터 삭제
+	delete from tablename where if~~~ ; 
+
+	// 테이블 생성
+	create table 테이블명 (
+		필드명 1 타입 [null|not null][default][auto_increament],~~
+		~~~
+
+		primary key(필드명)
+	);
+
+	// 테이블 ,삭제
+	alter table 테이블명 
+		add 필드명 타입 [null | not null][~]
+		chang 필드명 ~~ 
+
+	alter table 테이블명 drop 필드명;
+
+	// 테이블 네임 변경
+	alter table 테이블명 rename	변경이름;
+	```
+
+	[ euc-kr ] ascii 코드 + 한글 
+	영문/숫자/기호는 1바이트. 한글과 한자는 2바이트 
+
+	[ utf-8 ] 
+	영문/숫자/기호는 1바이트로, 한글과 한자 등은 3바이트로 표현 
+
+* Maven
+
+	메이븐은 지금까지 애플리케이션을 개발하기 위해 반복적으로 진행해왔던 작업들을 지원하기 위하여 등장한 도구입니다.
+	project : pom.xml 파일의 최상위 루트 엘리먼트(Root Element)입니다.
+	modelVersion : POM model의 버전입니다. 
+	groupId : 프로젝트를 생성하는 조직의 고유 아이디를 결정합니다. 일반적으로 도메인 이름을 거꾸로 적습니다.
+	artifactId : 해당 프로젝트에 의하여 생성되는 artifact의 고유 아이디를 결정합니다. Maven을 이용하여  pom.xml을 빌드할 경우 다음과 같은 규칙으로 artifact가 생성됩니다. artifactid-version.packaging. 위 예의 경우 빌드할 경우 examples-1.0-SNAPSHOT.jar 파일이 생성됩니다.
+	packaging : 해당 프로젝트를 어떤 형태로 packaging 할 것인지 결정합니다. jar, war, ear 등이 해당됩니다.
+	version : 프로젝트의 현재 버전. 추후 살펴보겠지만 프로젝트가 개발 중일 때는 SNAPSHOT을 접미사로 사용합니다. Maven의 버전 관리 기능은 라이브러리 관리를 편하게 합니다.
+	name : 프로젝트의 이름입니다.
+	url : 프로젝트 사이트가 있다면 사이트 URL을 등록하는 것이 가능합니다.
+	Maven 을 이용할 경우 얻게 되는 큰 이점 중의 하나는 Dependency Management 기능입니다.
+
+	위 pom.xml 파일에서 <dependencies/> 엘리먼트가 Dependency Management 기능의 핵심이라고 할 수 있습니다.
+
+	해당 엘리먼트 안에 필요한 라이브러리를 지정하게 됩니다.
