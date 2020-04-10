@@ -1,2 +1,0 @@
-# boostcourse
-wepproject
