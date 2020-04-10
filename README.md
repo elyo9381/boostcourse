@@ -1,2 +1,2 @@
 # boostcourse
-wepproject
+webproject
