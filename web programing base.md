@@ -694,3 +694,5 @@ request.getAttribute("dice"); 를 통해서 값을 전달 받는다.
 	위 pom.xml 파일에서 <dependencies/> 엘리먼트가 Dependency Management 기능의 핵심이라고 할 수 있습니다.
 
 	해당 엘리먼트 안에 필요한 라이브러리를 지정하게 됩니다.
+
+	test... 
