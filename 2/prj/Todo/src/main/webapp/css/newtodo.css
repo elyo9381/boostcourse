@@ -1,0 +1,69 @@
+.newtodo-section{
+    width: 925px;
+    height: 550px;
+    background-color: white;
+    margin: 0 auto;
+}
+
+.newtodo-title{
+    text-align: center;
+    padding-top: 30px;
+}
+
+.newtodo-container{
+    margin: 0 250px;
+}
+
+.newtodo-list-title{
+    margin-bottom: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    color: gray;
+}
+
+.newtodo-list{
+    margin-bottom: 30px;
+}
+
+#whattodo{
+    width: 400px;
+    padding: 10px 15px;
+}
+
+#who{
+    padding: 10px 15px;
+}
+
+#whattodo, #who::placeholder{
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.main{
+    float: left;
+    width: 98px;
+    height: 33px;
+    border: 1px solid black;
+    cursor: pointer;
+    text-align: center;
+    color: black;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.submit-reset{
+    float: right;
+}
+
+.prev{
+    display: block;
+    margin-top: 5px;
+}
+
+#submit, #reset{
+    width: 95px;
+    height: 30px;
+    background-color: #22aded;
+    color: white;
+    border: 1px solid gray;
+}

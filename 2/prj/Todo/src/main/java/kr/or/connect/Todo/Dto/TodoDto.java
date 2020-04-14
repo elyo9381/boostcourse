@@ -27,11 +27,18 @@ public class TodoDto {
 	}
 
 	
-	@Override
-	public String toString() {
-		return "TodoDto [id=" + id + ", name=" + name + ", regDate=" + regDate + ", sequence=" + sequence + ", title="
-				+ title + ", type=" + type + "]";
-	}
+	 @Override
+	    public String toString() {
+	        return "TodoDto{" +
+	                "id=" + id +
+	                ", title='" + title + '\'' +
+	                ", name='" + name + '\'' +
+	                ", sequence=" + sequence +
+	                ", type='" + type + '\'' +
+	                ", regdate='" + regDate + '\'' +
+	                '}';
+	    }
+	 
 	/**
 	 * @return the id
 	 */

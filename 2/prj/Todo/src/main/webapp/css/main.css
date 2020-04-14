@@ -1,0 +1,87 @@
+.main-section{
+    width: 930px;
+    height: 550px;
+    background-color: white;
+    margin: auto;
+}
+
+.articles{
+    float: left;
+    background-color: white;
+    width: 930px;
+}
+
+.main-title{
+    -ms-transform: rotate(-30deg); /* IE 9 */
+    -webkit-transform: rotate(-30deg); /* Chrome, Safari, Opera */
+    transform: rotate(-30deg);
+    display: inline-block;
+    margin-top: 50px;
+    color: #345461;
+}
+
+.newtodo{
+    display: block;
+    float: right;
+    background-color: #20adee;
+    width: 170px;
+    height: 35px;
+    margin-right: 15px;
+    margin-top: 40px;
+    text-decoration: none;
+    text-align: center;
+    line-height: 35px;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+}
+
+
+.lists {
+    width: 265px;
+    font-size: 20px;
+    float: left;
+    margin-right: 10px;
+}
+
+.list{
+    width: 265px;
+    background-color: #cee5ef;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.title{
+    background-color: #345461;
+    height: 60px;
+}
+
+#todo{
+    margin-left: 95px;
+}
+
+.lists-title{
+    margin-top: 13px;
+    margin-left: 15px;
+    color: white;
+}
+
+.list-title{
+    margin-top: 20px;
+    margin-left: 18px;
+    margin-bottom: 0px;
+}
+
+.list-content{
+    width: 200px;
+    height: 13px;
+    font-size: 10px;
+    color: #345461;
+    margin: 11px 10px 20px 18px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.change-type{
+    width: 25px;
+}

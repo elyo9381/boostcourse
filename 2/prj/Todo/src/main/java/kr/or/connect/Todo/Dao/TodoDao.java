@@ -12,42 +12,91 @@ import kr.or.connect.Todo.Dto.TodoDto;
 public class TodoDao {
 	
 	private static String dburl = "jdbc:mysql://localhost:3306/connectdb?serverTimezone=Asia/Seoul&useSSL=false";
-	private static String dbuser = "connectUser";
+	private static String dbuser = "connectuser";
 	private static String dbpasswd = "connect123!@#";
 	
 	
 	public TodoDao()
 	{
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public boolean CreateTable()
+//	
+	public int CreateTable()
 	{
-		boolean SuccessVal = false;
-		String sql = "create table todo ( id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT, "
-										 + "title VARCHER(255) NOT NULL, "
-										 + "name VARCHAR(100) NOT NULL, "
-										 + "sequence INT(1) NOT NULL, "
-										 + "type VARCHAR(20) DEFAULT 'TODO', "
-										 + "regDate DATETIME DEFAULT NOW(), "
-										 + "PRIMARY KEY(id)); ";
+		int SuccessVal = 0; 
+		String sql = "create table todo ( id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,"
+										 + "title varchar(255) NOT NULL,"
+										 + "name varchar(100) NOT NULL,"
+										 + "sequence INT(1) NOT NULL,"
+										 + "type varchar(20) DEFAULT 'TODO',"
+										 + "regDate DATETIME DEFAULT NOW())";
 		
 		try(Connection conn = DriverManager.getConnection(dburl,dbuser,dbpasswd);
 				PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.executeUpdate();
+			SuccessVal++;
 		} catch (Exception e){
 			e.printStackTrace();
 			
 		}	
 		
-		SuccessVal = true;
 		
 		return SuccessVal;
 	}
+
+			
+	
+	public boolean istable() {
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			
+			String sql = "SELECT 1 FROM Information_schema.tables WHERE table_name = 'todo'";
+			conn = DriverManager.getConnection(dburl,dbuser,dbpasswd);
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			int num = 0;
+			
+			num = rs.getInt("1");
+				
+			
+			
+			if(num == 1)
+			{
+				System.out.print("istable");
+				
+			}
+			else 
+			{
+				CreateTable();
+				System.out.print("createTable");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try{
+
+				if(rs!=null)rs.close();
+
+				if(ps!=null)ps.close();
+
+				if(conn!=null)conn.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return true;
+	}
+	
 	
 	public int addTodo(TodoDto todoDto)
 	{
@@ -101,8 +150,7 @@ public class TodoDao {
 	public List<TodoDto> getTodos() {
 		List<TodoDto> list = new ArrayList<>();
 		
-		String sql = "select id, title, name, sequence, type, DATE_FORMT(regdate, \'%Y.%m.%') as regdate "
-				   + "from order by regdate; ";
+		String sql = "select id, title, name, sequence, type, DATE_FORMAT(regdate, \'%Y.%m.%d\') as regdate from todo order by regdate";
 		
 		try (Connection conn  = DriverManager.getConnection(dburl, dbuser, dbpasswd);
 				PreparedStatement ps = conn.prepareStatement(sql);
