@@ -63,7 +63,12 @@ public class TodoDao {
 			rs = ps.executeQuery();
 			int num = 0;
 			
-			num = rs.getInt("1");
+			
+			if(rs.next())
+			{
+				
+				num = rs.getInt("1");
+			}
 				
 			
 			
@@ -150,7 +155,7 @@ public class TodoDao {
 	public List<TodoDto> getTodos() {
 		List<TodoDto> list = new ArrayList<>();
 		
-		String sql = "select id, title, name, sequence, type, DATE_FORMAT(regdate, \'%Y.%m.%d\') as regdate from todo order by regdate";
+		String sql = "select id, title, name, sequence, type, date_format(regdate, '%Y.%m.%d') as regdate from todo order by regdate ";
 		
 		try (Connection conn  = DriverManager.getConnection(dburl, dbuser, dbpasswd);
 				PreparedStatement ps = conn.prepareStatement(sql);

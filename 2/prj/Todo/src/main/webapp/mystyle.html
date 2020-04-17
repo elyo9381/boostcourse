@@ -1,15 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Title</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/my.css">
 </head>
 <body>
+
 
 <div id = "wrap">
     <header id = "header">
@@ -27,7 +24,6 @@
                         <h1 class="lists-title">TODO</h1>
                     </div>
                     
-                 
                     <c:forEach var="todoDto" items="${requestScope.list}">
                         <c:if test="${todoDto.type == 'TODO'}">
                             <div class="list" id="list${todoDto.id}">
@@ -81,9 +77,6 @@
 
     </div>
 </div>
-
-
-
 
 </body>
 </html>

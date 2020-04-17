@@ -1,17 +1,24 @@
-.newtodo-section{
-    width: 925px;
+body {
+    background-color: #a4c6b6;
+}
+.wrap{
+    width: 1000px;
     height: 550px;
     background-color: white;
     margin: 0 auto;
 }
 
-.newtodo-title{
+.container{
+    margin: 0 250px;
+}
+
+.title{
     text-align: center;
     padding-top: 30px;
 }
 
-.newtodo-container{
-    margin: 0 250px;
+.newtodo-list{
+    margin-bottom: 30px;
 }
 
 .newtodo-list-title{
@@ -21,9 +28,6 @@
     color: gray;
 }
 
-.newtodo-list{
-    margin-bottom: 30px;
-}
 
 #whattodo{
     width: 400px;

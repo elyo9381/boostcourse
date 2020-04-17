@@ -35,9 +35,9 @@ public class MainServlet extends HttpServlet {
 	
 		
 		
-//		boolean suc = todoDao.istable();
+		boolean suc = todoDao.istable();
 		
-//		System.out.println(suc);
+		System.out.println(suc);
 		
 		request.setAttribute("list",list);
 		
