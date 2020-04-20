@@ -82,23 +82,37 @@ body {
 
 .lists {
     width: 290px;
-    font-size: 20px;
+    font-size: 10px;
     float: left;
     margin-right: 10px;
 
 }
 
-.list{
-    width: 290px;
+ .list{
+    width: 290px; 
     background-color: #cee5ef;
     float: left;
     margin-bottom: 10px;
 }
 
+.list .list-content{
+    width: 200px;
+    height: 13px;
+    font-size: 10px;
+    color: #345461;
+    margin: 11px 10px 20px 18px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.change-type{
+    width: 35px;
+}
 .title{
     background-color: #345461;
     height: 60px;
 }
+
 
 #todo{
     margin-left: 10%;
@@ -115,6 +129,7 @@ body {
     margin-left: 18px;
     margin-bottom: 0px;
 }
+
 
 
 #footer{

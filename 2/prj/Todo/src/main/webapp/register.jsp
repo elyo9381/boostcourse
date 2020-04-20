@@ -3,7 +3,7 @@
 <html>
 <head>
 	<title>register</title>
-	<link rel = "stylesheet" href = "css/style.css">
+	<link rel = "stylesheet" href = "./css/newtodo.css">
 </head>
 <body>
 
@@ -25,28 +25,20 @@
                 <input type="radio" name="sequence" value="3" required>3순위
             </article>
             <article class="newtodo-list">
-                <a href="/Todo/main" class="main">
+                <a href="/Todo/main" class="main" id ="foo">
                     <span class="prev">
                         &lt;이전 
                     </span> 
-                </a> 
+                </a>  
                 <span class="submit-reset">
                     <input type="submit" value="제출" id="submit">
                     <input type="reset" value="내용지우기" id="reset">
                 </span>
             </article>
         </form>
+        
     </div>
 </body>
-
-
-<script>
-<!-- main화면으로 돌아가기 -->
-var backbutton = doscument.getElementById("backbtn");
-backbutton.addEventListener("click",function(){
-	location.href="./main"
-});
-</script>
 
 
 </html>

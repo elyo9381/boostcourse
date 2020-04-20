@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Title</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/main.css?after">
 </head>
 <body>
 
@@ -21,6 +21,7 @@
 
     <div id = "container">
         <div id = "content">
+        
             <div class = "articles">
                 <article class="lists" id="todo">
                     <div class="list title">
@@ -34,7 +35,7 @@
                                 <h5 class="list-title">${todoDto.title}</h5>
                                 <p class="list-content">등록날짜:${todoDto.regDate},
                                     ${todoDto.name}, 우선순위 ${todoDto.sequence}</p>
-                                <input type="text" name="id" value="${todoDto.id}">
+                                <input type="hidden" name="id" value="${todoDto.id}">
                                 <input type="hidden" name="type" value="${todoDto.type}">
                                 <input type="submit" class="change-type" value="→">
                             </div>
@@ -82,7 +83,7 @@
     </div>
 </div>
 
-
+<script src="js/moving.js"></script>
 
 
 </body>

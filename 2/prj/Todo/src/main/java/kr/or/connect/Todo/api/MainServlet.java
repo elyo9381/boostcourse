@@ -29,9 +29,9 @@ public class MainServlet extends HttpServlet {
 		
 		List<TodoDto> list = todoDao.getTodos();
 		
-		for(TodoDto todoDto : list) {
-			System.out.println(todoDto);
-		}
+//		for(TodoDto todoDto : list) {
+//			System.out.println(todoDto);
+//		}
 	
 		
 		

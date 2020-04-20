@@ -18,7 +18,7 @@ body {
 }
 
 .newtodo-list{
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 }
 
 .newtodo-list-title{
@@ -39,8 +39,8 @@ body {
 }
 
 #whattodo, #who::placeholder{
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 13px;
+    /* font-weight: bold; */
 }
 
 .main{
