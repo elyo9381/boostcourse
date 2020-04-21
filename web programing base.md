@@ -696,3 +696,252 @@ request.getAttribute("dice"); 를 통해서 값을 전달 받는다.
 	해당 엘리먼트 안에 필요한 라이브러리를 지정하게 됩니다.
 
 	test... 
+
+
+# javascript
+
+	forEach() : 함수를 동작하는 함수 (증감식이 없이 배열의 내부를 돌며 수행한다.)
+	map() : 배열의 원소를 돌면서, 값을 변경시킨 후 새로운 배열로 만들어서 반환한다. - 원래값을 바꾸지 않음.
+	filter() : 주어진 함수의 테스트를 통과하는 모든 요소를 모아 새로운 배열로 반환합나다.
+	reduce() : 주어진 콜백 함수를 가산기와 요소 각각에 대해 왼쪽에서 오른쪽으로 호출하여 하나의 값으로 줄인(reduce) 결과를 반환합니다.
+
+	~~~
+	//배열은 푸시 메소드를 통해서 앞에 입력을 할수있다.
+	var a = [4];
+
+	a.push(5);
+
+	[1,2,3,4].indexof(3) // 배열의 원소에 특정 갑이 들어있는지 확일할 수 있다. 
+
+	[1,2,3,4].join(); // "1,2,3,4" 배열을 문자열로 합칠 수 있다. 
+
+	[1,2,3,4].concat(2,3); // 배열을 합칠 수 있다. 
+
+	var a = [4];
+	a[1000] = 3;
+
+	console.log(a.length);
+	console.log(a[500]);
+
+
+	var origin = [1,2,3,4];
+	var result = origin.concat(2,3);
+
+	console.log(origin, result); // 새로운 배열을 반환할수도 있다. 
+
+	var mapped = result.map(function(v){
+		return v*2; // result array의 원소를 돌면서, 값을 변경시킨후 새로운 배열로 만들어서 반환한다.
+	});
+	console.log(mapped, result); // 맵은 기존에 배열을 받아서 새로운 배열을 리턴받을수잇다.
+
+	var newArr = ["apple","tomato"].map(function(value,index){
+		return index + "번째 과일은 " + value +"입니다.";
+	});
+
+	console.log(newArr);
+
+	//필터를 이용해서 배열 내의 word의 길이가 특정조건 이상인 배열 리턴
+	const words = ['spray', 'limit', 'elite', 'exuberant', 'destruction','present'];
+	const result1 = words.filter(word => word.length>6);
+	console.log(result1);
+		
+	// filter를 이용한 배열 내용을 조건에 따라 검색
+	function filterItem(query){
+		return words.filter(function(el){
+			// query의 소문자변환 후 word 중에 query를 찾아 인덱스를 반환하는 ! 
+			return el.toLowerCase().indexOf(query.toLowerCase()) > -1;
+		})
+	}
+	console.log(filterItem('e'));
+	
+	// 10이하인 모든 요소가 제거된 배열 만들기 위해서 filter()사용
+	function isBigEnough(value)
+	{
+		return value >= 10;
+	}
+
+	var filted = [12,5,7,190,44].filter(isBigEnoigh);
+
+
+	// reduce(reducer)
+
+	const array1 = [1,2,3,4];
+	const reducer = (accumulator,currnetValue) => accumulator + currentValue;
+
+
+	console.log(array1,reduce(reducer));
+
+	console.log(array1,reduce(reducer,5)); // 두번째 인자는 초기값을 제공하는것이다. 
+
+	~~~
+
+
+  * 자바스크립트 객체!
+
+	var obj = {name : "crong", age : 20}
+	형태로 구성되어있다. 이를 기반으로 json을 구성하였다. 
+
+
+	~~~
+	var myFriend = {key : "value"};
+
+	// console.log(myFriend.key);
+	console.log(myFriend["key"]);
+
+	var myFriendArr = { key : "value" , addition : [
+		{name: 'codesquad'}, {age:2}
+	]};
+	// 객체안에 객체를 담을수도 있다.
+	console.log(myFriendArr.addition[0].name);
+
+	// for in 문은 객체의 키에대한 벨류를 찾기위한 값이다.  객체 탐색! 
+	for(key in myFriend){
+    console.log(myFriend[key]);
+	}
+	~~~
+
+
+ * DOM elementobject
+
+	- childNodes
+	- firstChlid
+	- firstElementChild
+	- parentElement
+	- nextSibling
+	- nextElementSibling
+
+
+	- removeChild
+	- appendChild
+	- insertBefore
+	- cloneNode
+	- replaceChild
+	- closet
+
+	- innerText
+	- innerHTML
+	- insertAdjacentHTML()
+
+
+	```
+
+
+	// innerHTML example
+	var copyListButton = document.getElementById("copyListButton");
+
+	copyListButton.addEventListener("click", function() {
+	var ul = document.querySelector("ul");
+	var liNode = document.createElement("LI");
+	var list1Html = document.getElementById("list1").innerHTML;
+	
+	ul.innerHTML = " ";
+	ul.appendChild(liNode);
+	
+	var li = document.querySelector("li");
+	li.innerHTML = list1Html;
+	});
+	
+
+	// insertadjacentHTML // 지정한 위치에 html 삽입
+
+	var addListButton = document.getElementById("addListButton);
+	addListButton.addEventListener("click",function(){
+		var list3 = document.getElementById("list3");
+
+		list3.insertAdjacentHTML("afterend",<li>4. 웹어플리케이션 개발 2/4</li>");
+	});
+
+
+	```
+
+	DOM API 실습
+	~~~
+	var appendChildButtion = document.getElementById("appendChildButton");
+
+	appendChildButton.addEventListener("click",function(){
+	var ul = document.querySelector("ul");
+
+	
+	var liNode = document.createElement("LI");
+	var text = document.createTextNode("tangerine");
+	
+	liNode.appendChild(text);
+	ul.appendChild(liNode);
+	
+
+	
+	});
+
+
+	var removeChildButton = document.getElementById("removeChildButton");
+	removeChildButton.addEventListener("click",function(){
+	//   var ul = document.querySelector("ul");
+	//   var ulLastChild = ul.lastElementChild;
+	// //   console.log(ulLastChild.nodeName);
+	//   ul.removeChild(ulLastChild);
+	var reds = document.querySelectorAll("li.red");
+		var ul  = document.querySelector("ul");
+		for(var i = 0; i<reds.length; i++)
+		{
+			console.log(reds[i]);
+			ul.removeChild(reds[i]);
+		}
+
+	
+	
+	});
+	
+
+	var insertbtn = document.getElementById("insertbtn");
+
+	insertbtn.addEventListener("click",function(){
+	var ul = document.querySelector("ul");
+	
+	var newNode = document.createElement("LI");
+	var text = document.createTextNode("tangerine");
+	newNode.appendChild(text);
+	
+
+	var oldNode = document.querySelector("li:nth-child(3)");
+	
+	ul.insertBefore(newNode,oldNode);
+	});
+
+
+	// var insertbtn = document.getElementById("insertbtn");
+
+	// insertbtn.addEventListener("click",function(){
+	//   var banana =  document.querySelector("li:nth-child(2)");
+	
+	//  banana.insertAdjacentHTML("afterend","<li>tagerine</il>");
+	
+	// })
+
+	var movebtn = document.getElementById("movebtn");
+
+	movebtn.addEventListener("click",function(){
+	var ul = document.querySelector("ul");
+	
+	var firstNode = ul.firstElementChild;
+	var ulLastChild = ul.lastElementChild;
+	
+	ul.insertBefore(firstNode,ulLastChild); // insertbefore는 노드를 이동시킨다. 말그대로 삽입한다 파라미터2전에 
+	});
+
+	var blueNode = document.querySelectorAll("section .blue");
+
+	// DOM API 에서 특정 tag를 찾고 상위부모를 찾아 
+	// 형제및 부모를 삭제하는방법
+	for(var i = 0; i<blueNode.length; i++)
+	{
+		var sect = blueNode[i].closest("section");
+		console.log(sect);
+		
+		var h2 = sect.querySelector("h2");
+		console.log(h2);
+		
+		sect.removeChild(h2);
+	}
+
+	~~~
+
