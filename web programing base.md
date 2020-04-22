@@ -945,3 +945,178 @@ request.getAttribute("dice"); 를 통해서 값을 전달 받는다.
 
 	~~~
 
+* ajax 기술
+
+	새로고침이 일어나지 않고 서버측에 별도의 요청의 해서 별도의 화면에 보여주는것이고
+	
+	화면이 그려지지만 ajax가 요청되면 우선 화면이 뿌려지고 나중에 js엔진이 진행된다.
+	그리고 마지막에 랜더링이 진행된다. 
+
+	oRep.add~~ 익명함수
+	oRep.open()~~
+	oRep.send()~~ 
+
+	* 익명함수는 오픈과 센드보다 더 늦게 실행되는 함수입니다.익명함수는 비동기로 실행되며, 이벤트큐에 보관되다가 load이벤트가발생하면 그때 call stack에 실행되고 있는 함수가 없어서 비어있다면 stack에 올라와서 실행됩니다.
+
+
+	* 동기 
+    	* 
+
+
+	* 비동기 
+
+
+	* ajax 응답처리
+		
+		서버로부터 받아온 json데이터는 문자열 형태임으로 브라우저에서 바로 실행할 수가 없습니다.
+		따라서 문자열을 자바스크립트객체로 변환해야 데이터에 접근할 수가 있다. 이를 하려면 문자열 파싱을 일일히 해야 하는 불편함이 있습니다.
+
+	~~~
+
+	// 아래의 예제에서 비동기적이라면 이벤트가 나중에 실행된다. 우선 스택에 쌓고 다음 단계를 스택에 쌓는다.
+	// 먼저 오픈과 센드를 통해서 서버와 통신을 하여 콜스택에 쌓여있던 스택을 처리하고 나중에 이벤트를 처리한다. 
+	// 이런방법으로 비동기적으로 서버와 데이터를 주고 받을 수 있게 된다. 
+
+	var oReq = new XMLHttpRequest();
+
+	oReq.addEventListener("load", function() {
+		var jsonobj = JSON.parse(this.reponseText);
+		var fruit = jsonobj.favorites[1];
+		var outside = document.querySelector(".outside");
+		outside.innerHTML += "<span> " + fruit + "<span>".
+	});
+
+	oReq.open("GET", "./json.txt");
+	oReq.send();
+
+	~~~
+
+	* 크로스 도메인
+		A도메인에서 B도메인으로 XHR통신 , AJAX통신을 할수 없습니다. 
+
+	
+* 크롬 개발자 도구 네트워크 패널
+	
+	얼마나 서버로부터 응답이 걸리는지도 알수 있다. 
+	성능개선을 위해서 진단할 수 있는 도구이다. 
+
+	http통신과정에서 생기는 문제는 여기서 대부분 실마리를 찾을수 있을것이다. 
+
+	* 캡처스크린샷 
+		웹사이트를 다시로딩해서 결과를 확인하고 시간대별로 화면을 볼수 있는 기능이다. 시간대별 작동현황을 볼수있다.
+
+
+# animation (css, js)
+
+* animation 
+	애니메이셔은 반복적인 움직임의 처리입니다.
+	웹UI 애니메이션은 자바스크립트로 다양하게 제어할수있지만, 규치적이고 비교적 단순한 방식으로 동작되는 방식은 CSS3의 transition 과 transform 속성을 사용해서 대부분 구현가능합니다.
+	뿐만 아니라 자바스크립트보다 더 빠른 성능을 보장한다고 합니다. 이런 애니메이션 성능비교가 된글을 찾아보고 비교해봅니다.
+	특히 모바일웹에서는 css를 사용한 방법이 훨씬 더 빠릅니다. 
+  
+    * FPS
+	FPS는 1초에 화면에 표혆ㄹ 수 있는 정지화면 수 입니다. 
+
+	앞서 말한 것처럼 애니메이션은 css의 transition 속성으로 css속성을 변경하거나, javascript로 css속성을 변경할 수 있습니다.
+
+	간단하고 규칙적인거 css
+	세밀하고 조작이 필요한거 javaScript
+
+	성능만 봐서는 대체로 css로 변경하는 거싱 빠릅니다. 하지만 성능비교를 통해서 가장빠른 방법을 찾는과정이 필요하기도 합니다.
+
+	* setInterval() : 주기적으로 무엇을 실행하는코드.
+		
+		~~~ 
+		// arrow function -> () =>
+		const interval =  window.setInterval(() => {
+			console.log('현재시각은', new Date());
+		},1000/60);
+
+		//1000/60 = 약 16m/s
+		~~~
+		
+		문제는 interval로 실행되는것이 도중에 event가 오게 되면 실행이 밀린다. 
+
+	* setTimeout() : 지정된 시간후에 실행되는 코드
+
+		~~~
+		// 재귀를 통해서 animation()을 계속 호출하기 때문에 interval 같이 밀림 현상은 발생하지 않지만 최적화 되어있는것은 아니다. 
+		let count = 0;
+		function animation(){
+			setTimeout(()=> {
+				if(count >= 20) return;
+				console.log('현재시간은', new Date());
+				count++;
+				animation();
+				
+			},500);
+		}
+		animation();
+		~~~
+
+		문제는 animation주기를 16.6미만으로 하는경우 불필요한 frame 생성이 되는들의 문제가 생깁니다. 
+
+	* requestAnimaionFrame
+		
+		~~~
+		// 30번 순회 할것이고 basecondition을 설정하였다. 그리고 인라인으로 left를 0으로 초기화하며 호출을 할떄마다 left를 계속 움직이게 된다. 
+
+		var count = 0;
+		var el = document.querySelector(".outside");		
+		el.style.left = 0;
+
+		function run()
+		{
+			if(count > 30) return;
+			count +=1;
+			// 숫자와 문자열이 합쳐지면 문자열이 된다. 
+			el.style.left = parsInt(el.style.left) + count + "px";
+			requestAnimationFrame(run);
+		}
+
+		requestAnimationFrame(run);
+
+		~~~
+
+	* CSS animation
+		
+		transition을 이용하는 방법
+
+		~~~
+		html & css file
+		body style .outside{
+			position : relative;
+			background-color: blueviolet;
+			width: 100px;
+			font-size : 0.8em;
+			color :#fff;
+			left: 100px;
+			top: 100px;
+			transform: scale(1);
+			transition: transform 2s;
+		}
+
+		js 파일 (명령)
+		var base = document.querySelector(".outside");
+		base.style.transform = "scale(4)";
+		base.style.left = "500px";
+
+		// 버튼추가하여 animation주기
+		var rightbtn = rightbtn.document.querySelector("button");
+		
+		rightbtn.addEvnetListener("click",function(){
+			var pre = parseint(target,style.left);
+			target.style.left =pre + 10 + "px";
+		});
+		~~~
+
+# intellij
+
+	인텔리j는 안드로이드 스튜디오와 같은 ui로 구성되어있고 이클립스처럼 여러프로젝트가 처음에 띄어지지 않는다.
+	처음에 안스처럼 하나의 프로젝트만 띄어지고 ij(intellij)는 gradle이 존재한다. 
+
+	ij의 장점은 이친구는 자동완성 기능이 존재한다. 
+	
+	maven, tomcat, jdk 연동을 해보았으며 jsp, Servlet을 실행해보았다. 
+	maven file을 export하여 tomcat manager를 통하여 import하는 작업까지 작동시켜서 maven파일을 배치 하여보았다. 
+	
