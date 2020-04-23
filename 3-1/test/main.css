@@ -1,0 +1,15 @@
+body {
+    height: 500px;
+}
+
+div {
+    position: relative;
+    background-color: blueviolet;
+    width: 100px;
+    font-size: 0.8em;
+    color: white;
+    left : 100px;
+    top : 100px;
+    transform: scale(1);
+    transition:  2s;
+    }

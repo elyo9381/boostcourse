@@ -1120,3 +1120,11 @@ request.getAttribute("dice"); 를 통해서 값을 전달 받는다.
 	maven, tomcat, jdk 연동을 해보았으며 jsp, Servlet을 실행해보았다. 
 	maven file을 export하여 tomcat manager를 통하여 import하는 작업까지 작동시켜서 maven파일을 배치 하여보았다. 
 	
+
+
+## TDD
+	
+	1+2 = 3을 만들어서 적용하는 코드가 있다고 할때 
+	1. Red : 실패하는단계 
+	2. Green : 통과를 시키는 단계
+	3. ReFactoring : 코드가 깔끔해지고 제약조건이나 상황에대해서 유연하게 대처하는 코드 ==> clean code
