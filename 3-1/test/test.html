@@ -1,24 +1,62 @@
 <html>
-    <header>
-        <link rel="stylesheet" href="main.css">
-    </header>
-    <body>
-        <h2>template tets example</h2>
-        <ul class="content"></ul>
-    </body>
+<header>
+    <link rel="stylesheet" href="main.css">
+</header>
 
+<body>
+    <ul>
+        <li>tab 메뉴를 누르면 ajax를 통해서 데이터틀 가져온후 그 내용이 화면에 노출됩니다. </li>
+        <li>다른 tab메뉴를 누르면 역시 동일하게 ajax를 통해서 데이터를 가져온 후 그 내용이 화면에 노출됩니다.</li>
+        <li>화면에 노출하기 위해서 HTML 코드를 가져오고, 서버에서 받은 데이터를 HTML templating 작업을 해야합니다.</li>
+        <li>화면에 추가하기 위해서 DOM API를 사용합니다. </li>
+    </ul>
+    <h2> TAB UI TEST</h2>
 
-
-
-    <script id = "template-list-item" type="text/template">
-        <li>
-            <h4>{title}</h4><p>{content}</p><div>{price}</div>
-        </li>
-    </script>
+    <div class="tab">
+        <div class="tabmenu">
+            <div>crong</div>
+            <div>jk</div>
+            <div>pobi</div>
+            <div>honux</div>
+        </div>
+        <section class="content">
+            <h4>hello jk</h4>
+            <p>golf, facebook</p>
+        </section>
+    </div>
 
     <script>
-
-        var html =  document.querySelector("#template-list-item").innerHTML;
-        console.log(html);
+        function makeTemplate(data, clickedName) {
+            var html = document.getElementById("tabcontent").innerHTML;
+            var resultHTML = "";
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].name === clickedName) {
+                    resultHTML = html.replace("{name}", data[i].name)
+                                     .replace("{favorites}", data[i].favorites.join(" "));
+                    break;
+                }
+            }
+            document.querySelector(".content").innerHTML = resultHTML;
+        }
+        function sendAjax(url, clickedName) {
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", function () { // 로딩이 완료되면 실행되는것 
+                var data = JSON.parse(oReq.responseText);
+                makeTemplate(data, clickedName);
+            });
+            oReq.open("GET", url);
+            oReq.send();
+        }
+        var tabmenu = document.querySelector(".tabmenu");
+        tabmenu.addEventListener("click", function (evt) {
+            sendAjax("./json.txt", evt.target.innerText);
+        });
     </script>
+
+    <script id="tabcontent" type="text/x-my-template">
+            <h4>hello {name}</h4>
+            <p>{favorites}</p>
+    </script>
+</body>
+
 </html>
