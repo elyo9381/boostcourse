@@ -1128,3 +1128,203 @@ request.getAttribute("dice"); 를 통해서 값을 전달 받는다.
 	1. Red : 실패하는단계 
 	2. Green : 통과를 시키는 단계
 	3. ReFactoring : 코드가 깔끔해지고 제약조건이나 상황에대해서 유연하게 대처하는 코드 ==> clean code
+
+
+## Framework
+
+	시중에 유통되어 있는 반제품의 상품이다. ( 처음부터 다 만들 필요가 없다. )
+	
+	엔터프라이즈 급 어플리케이션을 구축할수 있는 가벼운 솔루션이자 (원스탑 숍)
+
+	원하는 부분만 가져다 사용할 수 있도록 모듈화가 잘되어 있다.
+
+	IoC 컨테이너이다. 
+
+	선언적으로 트랜잭션을 관리할 수 있다.
+
+	완전 한 기응을 갖춘 MVC Framework를 제공한다.
+
+	AOP지원
+	
+	스프링 도메인 논리 코드와 쉽게 분리될 수 있는 구조를 가지고 있다. 
+
+
+
+	* container
+		- 인스턴스의 생명주기를 관리한다.
+		- 생선된 인스턴스들에게 추가적인 기능을 제공한다.
+		
+		서블릿, jsp등을 톰캣의 was가 메모리에 올리고 같은 요청이 올라오면 실행하는것이 컨테이너이다. 
+
+	* IoC : inversion od control
+		- 개발자는 프로그램의 흐름을 제어하는 코드를 작성한다. 그런데, 이 흐름의 제어를 개발자가 하는것이 아니라 다른프로그램이 흐름을 제어하는 것을 IoC라고 말한다. 
+
+		인터페이스를 규격화 하는것을 말한다. 
+		
+		ex) Tv v = new.~~~;
+		
+		좋은거 알겠는데 공장을 만드는것은 매우 귀찮은일이다. 이런것들을 스프링이 해줍니다. 
+
+	* DI : dependenvy Injection (의존성 주입이란 뜻 )
+		IoC에서 제공하는 기능을 연결해주는 역할을 한다. 
+
+	* BeanFactory : Ioc/DI 에 대한 기본 기능을 가지고 있다.
+  
+	* applicationContext : BeanFactory의 기능을 포함하며 다른기능도 내포하고 있다. 
+
+		```
+			ApplicationContext ac = new ClassPathXmlApplicationContext( 
+					"classpath:applicationContext.xml"); 
+			System.out.println("초기화 완료.");
+			
+			UserBean userBean = (UserBean) ac.getBean("UserBean");
+			userBean.setName("kim");
+			System.out.println(userBean.getName());
+			
+			UserBean userBean2 = (UserBean)ac.getBean("UserBean");
+			if(userBean == userBean2) {
+				System.out.println("같은 인스턴스이다.");
+			}
+		```
+		applicationContext.xml은 객체공장을 만드는(즉 DI)를 만드는 기능을합니다.
+		이것을 싱글톤으로 객체를 만들어주는것을 ioc제어의 역전이라고 합니다.
+
+		객체에게 객체를 주입하는 것을 DI라고 합니다. 
+		DI의 장점은 Car클래스만 등장하고 engine클래스는 실행되는 클래스에서 등장하지 않는다. 
+
+
+		* 나의정리 
+
+			DI (ioc제어) 는  객체에게 객체를 주입하는 것이다. ApplicationContext.xml을 통해서 Bean element를 설정한다.
+
+			xml을통해서 DI / ioc제어를 할수있으며 이것들은 의존성관계주입 이란 명칭을 갖는다. 
+
+			xml을 통한 방법은 application.xml을 만들고 객체가 될 클래스들을 만들어서 메소드를 주기적으로 참조 시켜줘야한다. 
+			```
+			ApplicationContext ac = new ClassPathXmlApplicationContext( 
+					"classpath:applicationContext.xml"); 
+			System.out.println("초기화 완료.");
+			
+			UserBean userBean = (UserBean) ac.getBean("UserBean");
+			userBean.setName("kim");
+			System.out.println(userBean.getName());
+			
+			UserBean userBean2 = (UserBean)ac.getBean("UserBean");
+			if(userBean == userBean2) {
+			System.out.println("같은 인스턴스이다.");
+
+			// 위와같은 방법혹은 아래와 같은 방법
+
+			ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+			
+			Car car =(Car) ac.getBean("Car");
+			car.run();
+					
+			```
+			위의두 코드의 차이점은 applicationContext.xml에서 id값을 통해서 접근하냐 혹은 다양한 element를 통해서 접근하냐 이다. 
+
+			그리고 현재 많이 사용되는 방법으로는 어노테이션 방법이 있다. 
+			사용될 객체들의 위쪽에 conponent, Autowired, configuration, bean등을 이용하여 클래스위에 별도로 설정하고 applicationConfig파일에서 Bean파일들을 실행하는 방법이다. 이것은 applicationContext.xml파일이 필요치 않다.
+
+				- Configuration : 스프링 설정 클래스를 선ㄴ언하는 어노테이션
+				- Bean : bean을 설정하는 어노테이션
+				- Component : 컨트롤러,서비스,레포지터리,컴포넌트, 등 어노테이션이 붙은 클래슬 ㄹ찾아 컨테이너 등록
+				- component : 컴포넌트 스캔의 대상이 되는 어노테이션 중 하나로써 주로 유틸, 기타, 지원 클래스에 붙이는 어노테이션
+				- Autowired : 주입대상이되는 bean을 컨테이너에 찾아 주입하는 어노테이션
+
+
+			1 . 다루는 빈이 많아질수록 xml로 설정하는것과 component,componentScan,Autowired를 이용하는것중 어떤것이 유지보수에 좋을것 같습니까?
+			2 . @Autowired는 field, constructor,setterMethod에 사용할 수 있습니다. 각각의 방식에 장단점에 대해서 더 생각해보자 
+			
+			1 번은 후자가 유지보수에 좋을것같다 그러한 이유는 많은 메소드관리에 유익하기 때문에 
+			2 번은 같은 기능을하는것들은 Autowired가 장점이 될수있으나. 모든것이 이렇게 된다면 메소드 끼리 충돌이 발생하여 에러가 날것같다. 
+			
+
+##  spring jdbc
+
+	* dto , dao
+		dto : 계층간 데이터 교환을 위한 자바빈즈이다. 
+			  여기서 계층이란 컨트롤러 뷰 , 비지니스 계층 , 퍼시스턴스 계층을 의미한다. 
+			  일반적으로 dto는 로직을 가지고 있지 않고, 순수한 데이터 객체이다. 
+
+			  dto는 게터세터를 가지고 toString, equals, hashcode등의 메소드를 오버라이딩 할 수있다.
+		dao : DAO는 데이터를 조회하거나 조작하는 기능을 전담하도록 만든 객체이다. 
+			  보통 데이터베이스를 조작하는 기능을 전담하는 목적을 가진다. 
+
+		
+
+	* spring jdbc 접속 과정
+		
+		 DataSourceTest.java >> ApplicationConfig >> DBConfig.class 
+
+		데이터소스테스트자바의 메소드를 통해서 DI의 applicationConfig의를 참조한다 이떄 import annotation을 통해서 DBConfig.class를 임포트한다. 데이터소스테스트자바 객체에서 DBConfig.class객체를 불러와 디비 접속을 한다. 
+
+		```
+		// ApplicationConfig
+		@Configuration
+		@Import({DBConfig.class})
+		public class ApplicationConfig {
+
+		}
+
+		// DBConfig.class
+		@Configuration
+		@EnableTransactionManagement
+		public class DBConfig {
+			
+			private String driverClassName = "com.mysql.cj.jdbc.Driver";
+			private String dburl = "jdbc:mysql://localhost:3306/connectdb?serverTimezone=Asia/Seoul&useSSL=false";
+			
+			private String dbuser = "connectuser";
+			private String dbpasswd = "connect123!@#";
+			
+			@Bean
+			public DataSource dataSource() {
+				BasicDataSource dataSource = new BasicDataSource();
+				dataSource.setDriverClassName(driverClassName);
+				dataSource.setUrl(dburl);
+				dataSource.setUsername(dbuser);
+				dataSource.setPassword(dbpasswd);
+				return dataSource;
+			}
+		}
+
+		// DataSource
+
+		public static void main(String[] args) {
+		ApplicationContext ac = new AnnotationConfigApplicationContext(ApplicationConfig.class);
+		DataSource ds = ac.getBean(DataSource.class);
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+			if(conn != null)
+				System.out.println("접속 성공^^");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(conn != null) {
+				try {
+					conn.close();
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		```
+
+	* select 과정 
+		연결및 인증 과정 + 에다가 아래 과정이 들어간다. 
+		RoleDaoSqls.java >> RoleDao.java >> selectAllTest.java 에서 실행되는 과정이다. 
+
+		config를 통해서 인증? 객체공장에 접근을 하며 getbean을 통하여서 데이터(디비)를 가져온다.
+		그리고 roleDao를 통해서 겟터셋터 메소드를 통해서 리스트에 출력할수있는것이다. 
+
+		가장 중요한것은  import를 잘시키는 것이다. 우리는 스프링 기반에서 동작하고 있으므로 스프링 기반의  import를 시켜야한다.
+
+
+	 * update 과정 및 delete과정
+		RoleDao.java에 여러 메소드를 통해서 동작이 작동하고  sqld을 바인딩 잘해줘야한다.
+		나머지는 select할때와 비슷하나 바인딩 할때의 메소드와 각각의 다른 메소드들의 사용및 쓰임새를 알아야할것같다.
+
+	JdbcTemplate을 이용하지 않고 NamedParameterJdbcTemplate를 이용하여 DAO를 작성한 이유는 무엇이라고 생각하나요?
+	sql문에 다중 파라미터가 있을때 사용하기 쉽기 때문이다.

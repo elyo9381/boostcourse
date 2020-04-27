@@ -26,33 +26,42 @@
     </div>
 
     <script>
-        function makeTemplate(data, clickedName) {
-            var html = document.getElementById("tabcontent").innerHTML;
-            var resultHTML = "";
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].name === clickedName) {
-                    resultHTML = html.replace("{name}", data[i].name)
-                                     .replace("{favorites}", data[i].favorites.join(" "));
-                    break;
-                }
-            }
-            document.querySelector(".content").innerHTML = resultHTML;
-        }
-        function sendAjax(url, clickedName) {
-            var oReq = new XMLHttpRequest();
-            oReq.addEventListener("load", function () { // 로딩이 완료되면 실행되는것 
-                var data = JSON.parse(oReq.responseText);
-                makeTemplate(data, clickedName);
-            });
-            oReq.open("GET", url);
-            oReq.send();
-        }
-        var tabmenu = document.querySelector(".tabmenu");
-        tabmenu.addEventListener("click", function (evt) {
-            sendAjax("./json.txt", evt.target.innerText);
-        });
-    </script>
 
+    function makeTemplate(data, clickedName) {  
+        let html = document.getElementById("tabcontent").innerHTML;
+        let resultHTML = "";
+        for(let  i = 0; i<data.length; i++){
+            resultHTML = html.replace("{name}",data[i].name)
+                             .replace("{favorites",data[i].favorites.join(" "));
+        } 
+
+    }
+
+    function sendAjax(url, clickedName) {
+        let oReq = new XMLHttpRequest();
+        oReq.addEventListener("load",function(){
+            let data= JSON.parse(oReq.responseText);
+            makeTemplate(data,clickedName);
+
+        });
+        oReq.open("GET",url);
+        oReq.send();
+    }
+
+    let tabmenu = document.querySelector(".tabmenu");
+    tabmenu.addEventListener("click",function(){
+        sendAjax("./json.txt",evt.target.innerText);
+    });     
+    </script>
+	var oReq = new XMLHttpRequest();
+	oReq.addEventListener("load", function() {
+		var jsonobj = JSON.parse(this.reponseText);
+		var fruit = jsonobj.favorites[1];
+		var outside = document.querySelector(".outside");
+		outside.innerHTML += "<span> " + fruit + "<span>".
+	});
+	oReq.open("GET", "./json.txt");
+	oReq.send();
     <script id="tabcontent" type="text/x-my-template">
             <h4>hello {name}</h4>
             <p>{favorites}</p>

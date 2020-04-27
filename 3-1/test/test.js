@@ -17,9 +17,7 @@ function sendAjax(url, clickedName) {
     oReq.send();
 }
 
-let tabmenu = document.querySelector(".tabmenu");
-tabmenu.addEventListener("click",function(){
+let tabmenu = documnet.querySelector(".tabmenu");
+tabmenu.addEventListener("click" , function(evt){
     sendAjax("./json.txt",evt.target.innerText);
-    // console.log(evt.target); // target은 element의 관한 정보를 반환함
-    // console.log(evt.target.innerText); // element의 text를 반환함
 });
