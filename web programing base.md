@@ -1226,7 +1226,7 @@ request.getAttribute("dice"); 를 통해서 값을 전달 받는다.
 			그리고 현재 많이 사용되는 방법으로는 어노테이션 방법이 있다. 
 			사용될 객체들의 위쪽에 conponent, Autowired, configuration, bean등을 이용하여 클래스위에 별도로 설정하고 applicationConfig파일에서 Bean파일들을 실행하는 방법이다. 이것은 applicationContext.xml파일이 필요치 않다.
 
-				- Configuration : 스프링 설정 클래스를 선ㄴ언하는 어노테이션
+				- Configuration : 스프링 설정 클래스를 선언하는 어노테이션
 				- Bean : bean을 설정하는 어노테이션
 				- Component : 컨트롤러,서비스,레포지터리,컴포넌트, 등 어노테이션이 붙은 클래슬 ㄹ찾아 컨테이너 등록
 				- component : 컴포넌트 스캔의 대상이 되는 어노테이션 중 하나로써 주로 유틸, 기타, 지원 클래스에 붙이는 어노테이션
@@ -1248,6 +1248,7 @@ request.getAttribute("dice"); 를 통해서 값을 전달 받는다.
 			  일반적으로 dto는 로직을 가지고 있지 않고, 순수한 데이터 객체이다. 
 
 			  dto는 게터세터를 가지고 toString, equals, hashcode등의 메소드를 오버라이딩 할 수있다.
+
 		dao : DAO는 데이터를 조회하거나 조작하는 기능을 전담하도록 만든 객체이다. 
 			  보통 데이터베이스를 조작하는 기능을 전담하는 목적을 가진다. 
 
